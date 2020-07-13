@@ -6,6 +6,7 @@ default_config = {
     "output_path": "",
     "games_path": "assets\\games\\",
     "language": "es",
+    "line_separator": '|\n',
     "localization_forced_ins": {
         'LANGUAGE_NAME': 'Español',
         'BACK': 'ATRAS',
@@ -31,12 +32,12 @@ default_config = {
     "games": {
         "PartyPack": {
             "path": "assets\\games\\PartyPack",
-            "translate": True,
+            "translate": False,
             "filenames": {}
         },
         "Bracketeering": {
             "path": "assets\\games\\Bracketeering",
-            "translate": True,
+            "translate": False,
 
             "filenames": {
                 'BRKPrompt': {
@@ -54,7 +55,7 @@ default_config = {
         },
         "Fibbage3": {
             "path": "assets\\games\\Fibbage3",
-            "translate": True,
+            "translate": False,
 
             "filenames": {
                 'fibbageshortie': {
@@ -105,8 +106,8 @@ default_config = {
         },
         "MonsterMingle": {
             "path": "assets\\games\\MonsterMingle",
-            "translate": True,
-
+            "translate": False,
+            "special_characters": [['<', '>'], ['[', ']']],
             "filenames": {
                 'MMMonster': {
                     "translate": True,
@@ -194,7 +195,7 @@ default_config = {
         },
         "Overdrawn": {
             "path": "assets\\games\\Overdrawn",
-            "translate": True,
+            "translate": False,
 
             "filenames": {
                 'CivicDoodleMapJokes': {
@@ -240,11 +241,65 @@ default_config = {
                 }
             }
         },
+        "SurviveTheInternet": {
+            "path": "assets\\games\\Overdrawn",
+            "translate": True,
+
+            "filenames": {
+                'STIDesktopFolderName': {
+                    "translate": True,
+                    "has_folder": True,
+                    "single_structure": True,
+                    "strings": ['text'],
+                    "dicts": [],
+                    "dict_arrays": [],
+                    "special_characters": None,
+                    "v": [],
+                    "s": [],
+                    "episodeid": 0
+                },
+                'STIAddressBarGag': {
+                    "translate": True,
+                    "has_folder": False,
+                    "strings": [],
+                    "dicts": [],
+                    "dict_arrays": ['history'],
+                    "special_characters": None,
+                    "v": [],
+                    "s": [],
+                    "episodeid": 0
+                },
+
+                'CivicDoodleFinal': {
+                    "translate": True,
+                    "has_folder": True,
+                    "strings": ['category'],
+                    "dicts": [],
+                    "dict_arrays": [],
+                    "special_characters": [['<', '>'], ['[', ']']],
+                    "v": [3, 4, 5],
+                    "s": [],
+                    "episodeid": 1338
+                },
+                'CivicDoodleStartingArt': {
+                    "translate": True,
+                    "has_folder": False,
+                    "strings": ['category'],
+                    "dicts": [],
+                    "dict_arrays": [],
+                    "special_characters": [['<', '>'], ['[', ']']],
+                    "v": [],
+                    "s": [],
+                    "episodeid": 1230
+                }
+            }
+        }
     }
 }
 
 utils = Utils()
 config = utils.create_config(default_config)
+"""
 utils.format_file('assets.bin', input_path=config['input_path'])
 utils.unzip_assets(config)
 utils.remove_file(config['input_path'], 'assets.zip')
@@ -258,5 +313,6 @@ for game in config['games'].keys():
         print('{0} was skipped'.format(game))
 
 utils.zip(config['output_path'])
-#utils.format_file('assets.zip', input_path=config['output_path'], output_path=config['input_path'])
-#utils.remove_file(config['output_path'], 'assets.zip')
+"""
+utils.format_file('assets.zip', input_path=config['output_path'], output_path=config['input_path'])
+utils.remove_file(config['output_path'], 'assets.zip')

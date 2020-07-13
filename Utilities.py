@@ -14,6 +14,11 @@ class Utils:
     config = None
     language = 'es'
 
+    def batch_translation(self, array, special_characters=None):
+        texts = self.config['line_separator'].join(array)
+        translated_texts = self.translate(texts, special_characters)
+        translated_array = translated_texts.split(self.config['line_separator'])
+        return translated_array
 
     @staticmethod
     def unzip(path, file, directory_to_extract_to='assets'):

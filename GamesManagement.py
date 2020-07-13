@@ -31,12 +31,26 @@ class GamesManager:
             for file in os.listdir('{0}\\{1}'.format(folder_input_path, internal_path)):
                 if file[4:] == '.jet':
                     data = self.utils.read_json('{0}\\{1}\\{2}'.format(folder_input_path, internal_path, file))
+                    v_array = []
+                    s_array = []
+
                     for v in self.config['games'][self.game]['filenames']['{0}'.format(folder)]['v']:
-                        data['fields'][v]['v'] = self.utils.translate(data['fields'][v]['v'])
+                        v_array.append(data['fields'][v]['v'])
+                    translated_array = self.utils.batch_translation(v_array, special_characters)
+                    i = 0
+                    for v in self.config['games'][self.game]['filenames']['{0}'.format(folder)]['v']:
+                        data['fields'][v]['v'] = translated_array[i]
+                        i += 1
+
                     for s in self.config['games'][self.game]['filenames']['{0}'.format(folder)]['s']:
-                        data['fields'][s]['s'] = self.utils.translate(data['fields'][s]['s'], special_characters=special_characters)
-                    print("{0} - {1}% - {2}".format('{0}({1})'.format(folder, internal_path),
-                                                    int((index / amount_of_files) * 100), data))
+                        s_array.append(data['fields'][s]['s'])
+                    translated_array = self.utils.batch_translation(s_array, special_characters)
+                    i = 0
+                    for s in self.config['games'][self.game]['filenames']['{0}'.format(folder)]['s']:
+                        data['fields'][s]['s'] = translated_array[i]
+                        i += 1
+
+                    print("{0} - {1}% - {2}".format('{0}({1})'.format(folder, internal_path), int((index / amount_of_files) * 100), data))
                     self.utils.write_json(data, '{0}\\{1}'.format(folder_output_path, internal_path), file)
 
     def translate_file(self, file, file_config, special_characters=None):
@@ -51,19 +65,39 @@ class GamesManager:
         for line in data['content']:
             index += 1
 
+            string_array = []
+            internal_dict_array = []
+            dict_arrays_array = []
+
             for string in self.config['games'][self.game]['filenames'][file_name]['strings']:
-                line[string] = self.utils.translate(line[string], special_characters=special_characters)
+                string_array.append(line[string])
+            translated_array = self.utils.batch_translation(string_array, special_characters)
+            i = 0
+            for string in self.config['games'][self.game]['filenames'][file_name]['strings']:
+                line[string] = translated_array[i]
+                i += 1
 
             for internal_dict in self.config['games'][self.game]['filenames'][file_name]['dicts']:
                 if internal_dict in line.keys():
                     for t in line[internal_dict].keys():
-                        line[internal_dict][t] = self.utils.translate(line[internal_dict][t], special_characters=special_characters)
+                        internal_dict_array.append(line[internal_dict][t])
+
+                    translated_array = self.utils.batch_translation(internal_dict_array, special_characters)
+                    i = 0
+                    for t in line[internal_dict].keys():
+                        line[t] = translated_array[i]
+                        i += 1
 
             for key in self.config['games'][self.game]['filenames'][file_name]['dict_arrays']:
                 if key in line.keys():
                     for t in range(0, len(line[key])):
                         for v in line[key][t].keys():
-                            line[key][t][v] = self.utils.translate(line[key][t][v], special_characters=special_characters)
+                            dict_arrays_array.append(line[key][t][v])
+                        translated_array = self.utils.batch_translation(dict_arrays_array, special_characters)
+                        i = 0
+                        for v in line[key][t].keys():
+                            line[key][t][v] = translated_array[i]
+                            i += 1
 
             print("{0} - {1}% - {2}".format(file_name, int((index / amount_of_lines) * 100), line))
         self.utils.write_json(data, self.output_path, file)
@@ -78,7 +112,11 @@ class GamesManager:
 
         if not os.path.exists(self.output_path):
             os.makedirs(self.output_path)
-        self.utils.translate_menus(config, game)
+        if 'special_characters' in config['games'][game]:
+            self.utils.translate_menus(config, game, config['games'][game]['special_characters'])
+        else:
+            self.utils.translate_menus(config, game)
+
         for file in config['games'][game]['filenames']:
             if os.path.isfile('{0}{1}{2}'.format(self.input_path, file, '.jet')) and config['games'][game]['filenames'][file]['translate']:
                 if 'special_characters' in config['games'][game]['filenames'][file]:
