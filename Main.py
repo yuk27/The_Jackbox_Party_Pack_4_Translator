@@ -25,19 +25,19 @@ default_config = {
         "BRACKET_WINNERS": "GANADORES DEL BRACKET",
         "LEADERBOARD": "Tabla de Puntos",
         "BADGE_TITLE_FAMILY_MODE": "APTO PARA TODA LA FAMILIA",
-        "MENU_GAME_NAME_1": "Fibber 3",
+        "MENU_GAME_NAME_1": "Fibbage 3",
         "QUIT": "SALIR"
     },
     "localization_skip_words": ['twitter', 'spice girls', 'sub-zero', 'none', 'a', 'true', 'false', 'superman'],
     "games": {
         "PartyPack": {
             "path": "assets\\games\\PartyPack",
-            "translate": False,
+            "translate": True,
             "filenames": {}
         },
         "Bracketeering": {
             "path": "assets\\games\\Bracketeering",
-            "translate": False,
+            "translate": True,
 
             "filenames": {
                 'BRKPrompt': {
@@ -55,7 +55,7 @@ default_config = {
         },
         "Fibbage3": {
             "path": "assets\\games\\Fibbage3",
-            "translate": False,
+            "translate": True,
 
             "filenames": {
                 'fibbageshortie': {
@@ -106,7 +106,7 @@ default_config = {
         },
         "MonsterMingle": {
             "path": "assets\\games\\MonsterMingle",
-            "translate": False,
+            "translate": True,
             "special_characters": [['<', '>'], ['[', ']']],
             "filenames": {
                 'MMMonster': {
@@ -195,7 +195,7 @@ default_config = {
         },
         "Overdrawn": {
             "path": "assets\\games\\Overdrawn",
-            "translate": False,
+            "translate": True,
 
             "filenames": {
                 'CivicDoodleMapJokes': {
